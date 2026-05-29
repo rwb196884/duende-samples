@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using BlazorAutoRendering;
+using BlazorAutoRendering.Api.Proxy;
 using BlazorAutoRendering.Components;
 using Duende.AccessTokenManagement.OpenIdConnect;
 using Duende.Bff;
@@ -72,6 +73,19 @@ builder.Services.AddAuthorization();
 builder.Services.AddDataProtection()
     .SetApplicationName("BFF");
 
+#region "Greetings API proxy: services"
+// TODO: do this from YARP config.
+builder.Services.AddUserAccessTokenHttpClient<IGreetingsApi>(null,
+    configureClient: (serviceProvider, client) => client.BaseAddress = new Uri("https://localhost:7001/")
+);
+builder.Services.AddScoped/* Should this be singleton? Or transient? */<IGreetingsApi, GreetingsApi>((IServiceProvider serviceProvider) => {
+    IHttpClientFactory hcf = serviceProvider.GetRequiredService<IHttpClientFactory>();
+    HttpClient hc = hcf.CreateClient(nameof(IGreetingsApi));
+    return new GreetingsApi(null, hc);
+    // The base URL is set in the HttpClient, so the API proxy class doesn't need it.
+});
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -111,5 +125,11 @@ app.MapRemoteBffApiEndpoint("/remote-apis/greetings", new Uri("https://localhost
 
 // Example of local api endpoints.
 app.MapWeatherEndpoints();
+
+#region "Greetings API proxy: middleware"
+// TODO: do this from YARP config.
+app.MapRemoteBffApiEndpoint("/remote-apis/IGreetingsApi", new Uri("https://localhost:7001"))
+    .WithAccessToken(RequiredTokenType.User);
+#endregion
 
 app.Run();

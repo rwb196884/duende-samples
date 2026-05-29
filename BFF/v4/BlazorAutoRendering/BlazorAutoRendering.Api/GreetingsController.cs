@@ -8,7 +8,8 @@ namespace TokenExchange.Api;
 
 public class GreetingsController : ControllerBase
 {
-    [HttpGet("{**catch-all}")]
+    [HttpGet("{**catch-all}", Name = "Greet")]
+    [ProducesResponseType(typeof(GreetingsResponse), StatusCodes.Status200OK)]
     public IActionResult Get()
     {
         string message;
@@ -39,4 +40,15 @@ public class GreetingsController : ControllerBase
 
         return Ok(response);
     }
+
+    public class GreetingsResponse
+    {
+        public string? Url { get; set; }
+        public string? Path { get; set; }
+        public string? Message { get; set; }
+
+        public string? Time { get; set; }
+        public Dictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
+    }
+
 }
