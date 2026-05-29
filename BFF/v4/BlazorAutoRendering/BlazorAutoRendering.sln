@@ -1,13 +1,33 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11806.211
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAutoRendering", "BlazorAutoRendering\BlazorAutoRendering.csproj", "{1F48105E-87D1-48F1-B6B2-69486D39332F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B1FEE091-C305-436E-BF9B-41028870C34D} = {B1FEE091-C305-436E-BF9B-41028870C34D}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAutoRendering.Api", "BlazorAutoRendering.Api\BlazorAutoRendering.Api.csproj", "{D5F878E9-70DE-4A3A-851F-1E7B83703945}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAutoRendering.Client", "BlazorAutoRendering.Client\BlazorAutoRendering.Client.csproj", "{BD9AF4D2-841B-4FE1-8F60-8D2736D87783}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B1FEE091-C305-436E-BF9B-41028870C34D} = {B1FEE091-C305-436E-BF9B-41028870C34D}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAutoRendering.Api.Swaggergen", "BlazorAutoRendering.Api.Swaggergen\BlazorAutoRendering.Api.Swaggergen.csproj", "{A9234B6B-57F2-4A70-9BC8-83C476605B16}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2390A792-C3FE-4AFD-88AA-894CB63638B8}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		dotnet-tools.json = dotnet-tools.json
+		nuget.config = nuget.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAutoRendering.Api.Proxy", "BlazorAutoRendering.Api.Proxy\BlazorAutoRendering.Api.Proxy.csproj", "{B1FEE091-C305-436E-BF9B-41028870C34D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16} = {A9234B6B-57F2-4A70-9BC8-83C476605B16}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,8 +75,35 @@ Global
 		{BD9AF4D2-841B-4FE1-8F60-8D2736D87783}.Release|x64.Build.0 = Release|Any CPU
 		{BD9AF4D2-841B-4FE1-8F60-8D2736D87783}.Release|x86.ActiveCfg = Release|Any CPU
 		{BD9AF4D2-841B-4FE1-8F60-8D2736D87783}.Release|x86.Build.0 = Release|Any CPU
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16}.Debug|x64.Build.0 = Debug|Any CPU
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16}.Debug|x86.Build.0 = Debug|Any CPU
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16}.Release|x64.ActiveCfg = Release|Any CPU
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16}.Release|x64.Build.0 = Release|Any CPU
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16}.Release|x86.ActiveCfg = Release|Any CPU
+		{A9234B6B-57F2-4A70-9BC8-83C476605B16}.Release|x86.Build.0 = Release|Any CPU
+		{B1FEE091-C305-436E-BF9B-41028870C34D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1FEE091-C305-436E-BF9B-41028870C34D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1FEE091-C305-436E-BF9B-41028870C34D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B1FEE091-C305-436E-BF9B-41028870C34D}.Debug|x64.Build.0 = Debug|Any CPU
+		{B1FEE091-C305-436E-BF9B-41028870C34D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B1FEE091-C305-436E-BF9B-41028870C34D}.Debug|x86.Build.0 = Debug|Any CPU
+		{B1FEE091-C305-436E-BF9B-41028870C34D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1FEE091-C305-436E-BF9B-41028870C34D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1FEE091-C305-436E-BF9B-41028870C34D}.Release|x64.ActiveCfg = Release|Any CPU
+		{B1FEE091-C305-436E-BF9B-41028870C34D}.Release|x64.Build.0 = Release|Any CPU
+		{B1FEE091-C305-436E-BF9B-41028870C34D}.Release|x86.ActiveCfg = Release|Any CPU
+		{B1FEE091-C305-436E-BF9B-41028870C34D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B178352D-F83D-460B-B0FE-457054038DF2}
 	EndGlobalSection
 EndGlobal
