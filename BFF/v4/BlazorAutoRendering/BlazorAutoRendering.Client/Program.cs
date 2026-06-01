@@ -17,9 +17,9 @@ builder.Services.AddSingleton<IWeatherClient>(sp => sp.GetRequiredService<Weathe
 builder.Services.AddLocalApiHttpClient<WeatherClient>();
 
 builder.Services.AddRemoteApiHttpClient(MagicValues.Greet, (HttpClient client) =>
-{
-    client.BaseAddress = new Uri(client.BaseAddress!.ToString() + MagicValues.Greet + "/");
-}
+    {
+        client.BaseAddress = new Uri(client.BaseAddress!.ToString() + MagicValues.Greet + "/");
+    }
 );
 
 #region "Greetings API proxy: client side services"
