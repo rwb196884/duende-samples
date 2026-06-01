@@ -7,7 +7,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace BlazorAutoRendering
+namespace BlazorAutoRendering.Api
 {
     public class Program
     {
@@ -44,6 +44,8 @@ namespace BlazorAutoRendering
                         RoleClaimType = "role"
                     };
                 });
+
+            builder.Services.AddSingleton<ThingService>();
 
             builder.Services.AddAuthorization(options =>
             {

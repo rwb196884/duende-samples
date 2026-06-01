@@ -1,0 +1,122 @@
+@page "/things"
+
+@using Microsoft.AspNetCore.Authorization
+@using BlazorAutoRendering.Api.Proxy
+
+@inject IGreetingsApi GreetingsApi
+
+@* @rendermode InteractiveAuto  *@
+@* ^^ This always runs on the server because of prerendering. *@
+
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@* ^^ This forces it to run on the client. *@
+
+@attribute [Authorize]
+
+<PageTitle>Greet</PageTitle>
+
+<h1>Things</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    @if (!LoadingTheThings)
+    {
+        <tbody>
+            @foreach (Thing t in TheThings)
+            {
+                <tr>
+                    <td>@t.ThingId</td>
+                    <td>@t.ThingName</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => BeginEditAsync(t)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteAsync(t)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>
+
+@if (LoadingTheThings)
+{
+    <p>Loading the things...</p>
+}
+
+@if (ThingModel.ThingId > 0)
+{
+    <p>Edit a thing</p>
+}
+else
+{
+    <p>Add a new thing</p>
+}
+<EditForm Model="ThingModel" OnValidSubmit="OnValidSubmitThingAsync">
+    <InputText @bind-Value="ThingModel.ThingName" DisplayName="Name" />
+    @if (ThingModel.ThingId > 0)
+    {
+        <button type="button" class="btn btn-secondary ms-1 me-1" @onclick="() => { ThingModel = new Thing(); }">Cancel</button>
+    }
+    <button type="submit" class="btn btn-primary">@(ThingModel.ThingId > 0 ? "Save" : "Add")</button>
+</EditForm>
+
+
+@code {
+    IEnumerable<Thing> TheThings { get; set; }
+    bool LoadingTheThings { get; set; }
+
+    Thing ThingModel { get; set; } = new Thing();
+
+    async Task LoadTheThings()
+    {
+        LoadingTheThings = true;
+        TheThings = await GreetingsApi.ThingsAsync();
+        LoadingTheThings = false;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        TheThings = new List<Thing>();
+        ThingModel = new Thing(); // The form complains of not having a Model.
+
+        LoadTheThings();
+    }
+
+    async Task BeginEditAsync(Thing t)
+    {
+        ThingModel = t;
+    }
+
+    async Task DeleteAsync(Thing t)
+    {
+        try
+        {
+            await GreetingsApi.ThingDeleteAsync(t.ThingId);
+        }
+        catch (Exception e)
+        {
+
+        }
+        LoadTheThings();
+    }
+
+    async Task OnValidSubmitThingAsync()
+    {
+        if (ThingModel.ThingId > 0)
+        {
+            await GreetingsApi.ThingPutAsync(ThingModel);
+        }
+        else
+        {
+            await GreetingsApi.ThingPostAsync(ThingModel);
+        }
+        ThingModel = new Thing();
+        LoadTheThings();
+    }
+}

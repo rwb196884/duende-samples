@@ -35,9 +35,9 @@ else
     {
         try
         {
-            using var client = HttpClientFactory.CreateClient("greet");
+            using var client = HttpClientFactory.CreateClient(MagicValues.Greet);
 
-            var response = await client.GetAsync("greet");
+            var response = await client.GetAsync("api/Greetings");
             response.EnsureSuccessStatusCode();
             _response = JsonSerializer.Deserialize<GreetingsResponse>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions()
             {

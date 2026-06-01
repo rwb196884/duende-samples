@@ -4,13 +4,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TokenExchange.Api;
+namespace BlazorAutoRendering.Api;
 
+[ApiController]
+[Route("api/[controller]")]
 public class GreetingsController : ControllerBase
 {
-    [HttpGet("{**catch-all}", Name = "Greet")]
+    [HttpGet("", Name = "Greet")]
     [ProducesResponseType(typeof(GreetingsResponse), StatusCodes.Status200OK)]
-    public IActionResult Get()
+    public IActionResult Greet()
     {
         string message;
         var sub = User.FindFirst("sub");
@@ -40,6 +42,40 @@ public class GreetingsController : ControllerBase
 
         return Ok(response);
     }
+
+    [HttpGet("{who}", Name = "GreetSomeone")]
+    [ProducesResponseType(typeof(GreetingsResponse), StatusCodes.Status200OK)]
+    public IActionResult GreetSomeone(string who)
+    {
+        string message;
+        var sub = User.FindFirst("sub");
+
+        if (!User.Identity.IsAuthenticated)
+        {
+            message = $"Hello {who}. From anonymous caller.";
+        }
+        else if (sub != null)
+        {
+            var userName = User.FindFirst("name");
+            message = $"Hello {who}. From {userName.Value}.";
+        }
+        else
+        {
+            var client = User.FindFirst("client_id");
+            message = $"Hello client, {client.Value}";
+        }
+
+        var response = new
+        {
+            path = Request.Path.Value,
+            message = message,
+            time = DateTime.UtcNow.ToString(),
+            headers = Request.Headers.ToDictionary(x => x.Key, x => string.Join(',', x))
+        };
+
+        return Ok(response);
+    }
+
 
     public class GreetingsResponse
     {

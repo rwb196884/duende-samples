@@ -3,6 +3,7 @@
 
 using BlazorAutoRendering;
 using BlazorAutoRendering.Api.Proxy;
+using BlazorAutoRendering.Client;
 using BlazorAutoRendering.Components;
 using Duende.AccessTokenManagement.OpenIdConnect;
 using Duende.Bff;
@@ -120,7 +121,7 @@ app.MapRazorComponents<App>()
     .AddAdditionalAssemblies(typeof(BlazorAutoRendering.Client._Imports).Assembly);
 
 // Map a remote endpoint. The default remote endpoint basepath is '/remote-apis'
-app.MapRemoteBffApiEndpoint("/remote-apis/greetings", new Uri("https://localhost:7001"))
+app.MapRemoteBffApiEndpoint($"/remote-apis/{MagicValues.Greet}", new Uri("https://localhost:7001"))
     .WithAccessToken(RequiredTokenType.User);
 
 // Example of local api endpoints.
